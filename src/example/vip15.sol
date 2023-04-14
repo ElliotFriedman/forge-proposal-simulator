@@ -40,17 +40,6 @@ contract vip15 is TimelockProposal {
             "Withdraw all DAI from Morpho Compound PCV Deposit"
         );
 
-        /// usdc deposit has no balance, withdrawing when balance is 0 reverts on morpho
-        /// so comment out this part of proposal so it can pass
-        // _pushTimelockAction(
-        //     addresses.mainnet("PCV_GUARDIAN"),
-        //     abi.encodeWithSignature(
-        //         "withdrawAllToSafeAddress(address)",
-        //         addresses.mainnet("MORPHO_COMPOUND_USDC_PCV_DEPOSIT")
-        //     ),
-        //     "Withdraw all USDC from Morpho Compound PCV Deposit"
-        // );
-
         /// ------- withdraw funds from psms -------
 
         _pushTimelockAction(
@@ -345,6 +334,7 @@ contract vip15 is TimelockProposal {
 
     function teardown(Addresses addresses, address deployer) public pure {}
 
+    /// post proposal validation
     function validate(Addresses addresses, address /* deployer*/) public {
         Core core = Core(addresses.mainnet("CORE"));
         PegStabilityModule daiPriceBoundPSM = PegStabilityModule(
