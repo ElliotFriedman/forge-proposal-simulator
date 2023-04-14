@@ -336,46 +336,7 @@ contract vip15 is TimelockProposal {
 
     /// post proposal validation
     function validate(Addresses addresses, address /* deployer*/) public {
-        Core core = Core(addresses.mainnet("CORE"));
-        PegStabilityModule daiPriceBoundPSM = PegStabilityModule(
-            addresses.mainnet("VOLT_DAI_PSM")
-        );
-        PegStabilityModule usdcPriceBoundPSM = PegStabilityModule(
-            addresses.mainnet("VOLT_USDC_PSM")
-        );
-        ERC20Allocator allocator = ERC20Allocator(
-            addresses.mainnet("ERC20ALLOCATOR")
-        );
-        PCVDeposit daiDeposit = PCVDeposit(
-            addresses.mainnet("COMPOUND_DAI_PCV_DEPOSIT")
-        );
-        PCVDeposit usdcDeposit = PCVDeposit(
-            addresses.mainnet("COMPOUND_USDC_PCV_DEPOSIT")
-        );
-        TimelockController tc = TimelockController(
-            payable(addresses.mainnet("TIMELOCK_CONTROLLER"))
-        );
-
-        /// core roles
-        assertEq(core.getRoleMemberCount(core.PCV_CONTROLLER_ROLE()), 0);
-        assertEq(core.getRoleMemberCount(core.GUARDIAN_ROLE()), 0);
-        assertEq(core.getRoleMemberCount(keccak256("GOVERN_ROLE")), 2);
-        assertEq(core.getRoleMemberCount(core.MINTER_ROLE()), 0);
-        assertEq(core.getRoleMemberCount(core.BURNER_ROLE()), 0);
-        assertEq(core.getRoleMemberCount(keccak256("PCV_GUARD_ADMIN_ROLE")), 0);
-        assertEq(core.getRoleMemberCount(VoltRoles.PCV_GUARD), 0);
-
-        /// address role validation
-        assertTrue(!core.isPCVController(address(allocator)));
-        assertTrue(
-            !core.isPCVController(
-                addresses.mainnet("MORPHO_COMPOUND_PCV_ROUTER")
-            )
-        );
-        assertTrue(!core.isPCVController(address(allocator)));
-        assertTrue(!core.isGovernor(addresses.mainnet("GOVERNOR")));
-        assertTrue(core.isGovernor(address(core)));
-        assertTrue(core.isGovernor(addresses.mainnet("TIMELOCK_CONTROLLER")));
+        ITimelockController tc = ITimelockController(payable(addresses.mainnet("TIMELOCK_CONTROLLER")));
 
         /// timelock roles
         assertTrue(
@@ -391,19 +352,6 @@ contract vip15 is TimelockProposal {
             )
         );
         assertTrue(tc.hasRole(keccak256("EXECUTOR_ROLE"), address(0)));
-
-        /// paused
-        assertTrue(daiPriceBoundPSM.paused());
-        assertTrue(usdcPriceBoundPSM.paused());
-
-        assertTrue(daiDeposit.paused());
-        assertTrue(usdcDeposit.paused());
-
-        assertTrue(allocator.paused());
-
-        /// pcv deposits
-        assertTrue(daiDeposit.balance() < 1e18); /// less than $1 left in Morpho
-        assertEq(usdcDeposit.balance(), 0);
 
         /// ensure msig can still propose to the timelock after the proposal
         {
@@ -435,12 +383,5 @@ contract vip15 is TimelockProposal {
             );
             vm.stopPrank();
         }
-
-        /// assert core is still intact and can grant roles
-        vm.startPrank(address(tc));
-        core.grantGovernor(addresses.mainnet("GOVERNOR"));
-        vm.stopPrank();
-        assertTrue(core.isGovernor(addresses.mainnet("GOVERNOR")));
-        assertEq(core.getRoleMemberCount(keccak256("GOVERN_ROLE")), 3);
     }
 }

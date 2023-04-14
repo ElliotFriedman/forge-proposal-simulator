@@ -57,6 +57,9 @@ interface ITimelockController {
      */
     receive() external payable;
 
+    /// openzeppelin ACL interface
+    function hasRole(bytes32, address) external view returns (bool);
+
     /**
      * @dev See {IERC165-supportsInterface}.
      */
