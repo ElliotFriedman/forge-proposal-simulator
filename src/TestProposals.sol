@@ -3,8 +3,8 @@ pragma solidity =0.8.13;
 import {console} from "@forge-std/console.sol";
 import {Test} from "@forge-std/Test.sol";
 
-import {Proposal} from "./proposalTypes/Proposal.sol";
-import {Addresses} from "./Addresses.sol";
+import {Proposal} from "@proposal-types/Proposal.sol";
+import {IAddresses} from "./IAddresses.sol";
 
 /*
 How to use:
@@ -13,32 +13,33 @@ forge test --fork-url $ETH_RPC_URL --match-contract TestProposals -vvv
 Or, from another Solidity file (for post-proposal integration testing):
     TestProposals proposals = new TestProposals();
     proposals.setUp();
+    // optional
     proposals.setDebug(false); // don't console.log
     proposals.testProposals();
     Addresses addresses = proposals.addresses();
 */
 
 contract TestProposals is Test {
-    Addresses public addresses;
+    IAddresses public addresses;
     Proposal[] public proposals;
     uint256 public numProposals;
     bool public DEBUG;
     bool public DO_DEPLOY;
     bool public DO_AFTER_DEPLOY;
+    bool public DO_BUILD;
     bool public DO_RUN;
     bool public DO_TEARDOWN;
     bool public DO_VALIDATE;
 
     /// set the address object during construction
-    /// this allows child classes to inject the addresses used
-    constructor(Addresses _addresses) {
+    /// this allows child classes to inject the addresses
+    /// used during the proposal
+    constructor(IAddresses _addresses) {
         addresses = _addresses;
     }
 
     /// @notice add proposals to be tested
-    /// this function must be called after the child creates
-    /// an new instance of the proposal(s) to be simulated
-    function addProposal(Proposal proposal) internal {
+    function addProposal(Proposal proposal) external {
         proposals.push(proposal);
 
         numProposals = proposals.length;
@@ -48,6 +49,7 @@ contract TestProposals is Test {
         DEBUG = vm.envOr("DEBUG", true);
         DO_DEPLOY = vm.envOr("DO_DEPLOY", true);
         DO_AFTER_DEPLOY = vm.envOr("DO_AFTER_DEPLOY", true);
+        DO_BUILD = vm.envOr("DO_BUILD", true);
         DO_RUN = vm.envOr("DO_RUN", true);
         DO_TEARDOWN = vm.envOr("DO_TEARDOWN", true);
         DO_VALIDATE = vm.envOr("DO_VALIDATE", true);
@@ -103,7 +105,13 @@ contract TestProposals is Test {
                 proposals[i].afterDeploy(addresses, address(proposals[i]));
             }
 
-            // Run step
+            // Build proposal step
+            if (DO_BUILD) {
+                if (DEBUG) console.log("Proposal", name, "build()");
+                proposals[i].build(addresses);
+            }
+
+            // Run proposal step
             if (DO_RUN) {
                 if (DEBUG) console.log("Proposal", name, "run()");
                 proposals[i].run(addresses, address(proposals[i]));
