@@ -42,10 +42,12 @@ abstract contract MultisigProposal is Proposal {
     /// @param multisigAddress address of the multisig doing the calls
     function _simulateMultisigActions(address multisigAddress) internal {
         vm.startPrank(multisigAddress);
+
         for (uint256 i = 0; i < actions.length; i++) {
             (bool success, bytes memory result) = actions[i].target.call{
                 value: actions[i].value
             }(actions[i].arguments);
+
             if (success == false) {
                 assembly {
                     revert(add(result, 32), mload(result))
