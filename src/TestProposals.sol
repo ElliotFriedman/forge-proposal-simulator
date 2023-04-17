@@ -6,19 +6,6 @@ import {Test} from "@forge-std/Test.sol";
 import {Proposal} from "@proposal-types/Proposal.sol";
 import {IAddresses} from "./IAddresses.sol";
 
-/*
-How to use:
-forge test --fork-url $ETH_RPC_URL --match-contract TestProposals -vvv
-
-Or, from another Solidity file (for post-proposal integration testing):
-    TestProposals proposals = new TestProposals();
-    proposals.setUp();
-    // optional
-    proposals.setDebug(false); // don't console.log
-    proposals.testProposals();
-    Addresses addresses = proposals.addresses();
-*/
-
 contract TestProposals is Test {
     IAddresses public addresses;
     Proposal[] public proposals;
