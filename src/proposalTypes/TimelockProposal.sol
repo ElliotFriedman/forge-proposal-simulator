@@ -50,6 +50,8 @@ abstract contract TimelockProposal is Proposal {
         address proposerAddress,
         address executorAddress
     ) internal {
+        require(actions.length > 0, "Empty timelock operation");
+
         ITimelockController timelock = ITimelockController(
             payable(timelockAddress)
         );
@@ -109,8 +111,9 @@ abstract contract TimelockProposal is Proposal {
                 salt,
                 delay
             );
+
             if (DEBUG) {
-                console.log("schedule batch calldata");
+                console.log("schedule batch calldata with ", actions.length, (actions.length > 1 ? " actions" : " action"));
                 emit log_bytes(
                     abi.encodeWithSignature(
                         "scheduleBatch(address[],uint256[],bytes[],bytes32,bytes32,uint256)",
