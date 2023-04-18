@@ -62,6 +62,25 @@ DO_VALIDATE: This boolean flag controls whether to execute the validate() stage 
 
 You can set these environment variables before running the program to customize its behavior according to your needs.
 
+## Getting Started
+
+1. Install the framework in your foundry project by running command
+
+```bash
+forge install ElliotFriedman/forge-proposal-simulator
+````
+
+2. Create a proposal. You can find an example of how a proposal structured in the `vip15.sol` file in the example folder.
+
+3. Create an address object as specified in the `ExampleAddresses.sol` file. Add all relevant addresses to your project that will be used during your governance proposals.
+
+4. Create a PostProposalCheck integration test in your project's integration test folder. Use `Vip15PostProposalCheck.sol` in the example folder as a reference. When inheriting the `PostProposalCheck` abstract contract, the `_addProposals` function must be overridden and implemented, with logic calling the Proposal contract and adding your newly created proposal.
+
+5. Test your proposal
+```bash
+forge test --fork-url $ETH_RPC_URL --match-contract YourProposalNamePostProposalCheck -vvv
+```
+
 ## Authors
 
-This framework was created by Elliot Friedman and Erwan Beauvois. It is inspired by the Fei proposal simulation framework.
+This framework was created by Elliot Friedman and Erwan Beauvois. It is inspired by the Fei governance proposal simulation framework.
