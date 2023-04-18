@@ -46,19 +46,19 @@ Each proposal goes through the following stages:
 
 The Proposal Simulation Framework utilizes the following environment variables to control the behavior of the testing process:
 
-DEBUG: This environment variable is a boolean flag that enables or disables debug logs. Set it to true to enable debug logs, or false to disable them. The default value is true.
+`DEBUG`: This environment variable is a boolean flag that enables or disables debug logs. Set it to true to enable debug logs, or false to disable them. The default value is true.
 
-DO_DEPLOY: This boolean flag controls whether to execute the deploy() stage of the proposals. Set it to true to run the deploy stage, or false to skip it. The default value is true.
+`DO_DEPLOY`: This boolean flag controls whether to execute the `deploy()` stage of the proposals. Set it to true to run the deploy stage, or false to skip it. The default value is true.
 
-DO_AFTER_DEPLOY: This boolean flag controls whether to execute the afterDeploy() stage of the proposals. Set it to true to run the after-deploy stage, or false to skip it. The default value is true.
+`DO_AFTER_DEPLOY`: This boolean flag controls whether to execute the `afterDeploy()` stage of the proposals. Set it to true to run the after-deploy stage, or false to skip it. The default value is true.
 
-DO_BUILD: This boolean flag controls whether to execute the build() stage of the proposals. Set it to true to run the build stage, or false to skip it. The default value is true.
+`DO_BUILD`: This boolean flag controls whether to execute the `build()` stage of the proposals. Set it to true to run the build stage, or false to skip it. The default value is true.
 
-DO_RUN: This boolean flag controls whether to execute the run() stage of the proposals. Set it to true to run the run stage, or false to skip it. The default value is true.
+`DO_RUN`: This boolean flag controls whether to execute the `run()` stage of the proposals. Set it to true to run the run stage, or false to skip it. The default value is true.
 
-DO_TEARDOWN: This boolean flag controls whether to execute the teardown() stage of the proposals. Set it to true to run the teardown stage, or false to skip it. The default value is true.
+`DO_TEARDOWN`: This boolean flag controls whether to execute the `teardown()` stage of the proposals. Set it to true to run the teardown stage, or false to skip it. The default value is true.
 
-DO_VALIDATE: This boolean flag controls whether to execute the validate() stage of the proposals. Set it to true to run the validate stage, or false to skip it. The default value is true.
+`DO_VALIDATE`: This boolean flag controls whether to execute the `validate()` stage of the proposals. Set it to true to run the validate stage, or false to skip it. The default value is true.
 
 You can set these environment variables before running the program to customize its behavior according to your needs.
 
@@ -78,7 +78,7 @@ forge install ElliotFriedman/forge-proposal-simulator
 
 5. Test your proposal
 ```bash
-forge test --fork-url $ETH_RPC_URL --match-contract YourProposalNamePostProposalCheck -vvv
+forge test --fork-url $ETH_RPC_URL --match-contract YourProposalName_PostProposalCheck -vvv
 ```
 
 ## Authors
