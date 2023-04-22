@@ -4,9 +4,29 @@ pragma solidity =0.8.13;
 import {Addresses} from "./../Addresses.sol";
 
 /// Example of what an address contract should look like
+/// defines and stores contract addresses for different contracts of a system.
 /// During construction populate the `_mainnet` mapping in the Addresses contract
 contract ExampleAddresses is Addresses {
     constructor() Addresses() {
+        /*
+            summary of the contract variables:
+
+            Various contract addresses, grouped by their roles or types:
+
+            Core contracts, e.g., V1_CORE, CORE, ERC20ALLOCATOR, etc.
+            Live PSM addresses, e.g., VOLT_DAI_PSM, VOLT_USDC_PSM, etc.
+            Morpho addresses, e.g., MORPHO_COMPOUND_PCV_ROUTER, MORPHO_COMPOUND_DAI_PCV_DEPOSIT, MORPHO_COMPOUND_USDC_PCV_DEPOSIT.
+            Oracle addresses, e.g., ORACLE_PASS_THROUGH, VOLT_SYSTEM_ORACLE_144_BIPS, etc.
+            Active EOA addresses, e.g., EOA_1, EOA_2, EOA_4, etc.
+            Token addresses, e.g., V1_VOLT, VOLT, USDC, FEI, DAI, etc.
+            Addresses to impersonate, e.g., KRAKEN_USDC_WHALE
+            Compound addresses, e.g., CDAI, CFEI, CUSDC, COMP, COMPTROLLER_V2, etc.
+            Maker addresses, e.g., MAKER_DAI_USDC_PSM, GEM_JOIN, etc.
+            PCV deposit addresses, e.g., COMPOUND_DAI_PCV_DEPOSIT, COMPOUND_FEI_PCV_DEPOSIT, COMPOUND_USDC_PCV_DEPOSIT, etc.
+            Curve addresses, e.g., DAI_USDC_USDT_CURVE_POOL
+            Deprecated addresses, e.g., REVOKED_EOA_1, REVOKED_EOA_3, DEPRECATED_ORACLE_PASS_THROUGH, etc.
+            Maple addresses, e.g., MPL_TOKEN, MPL_ORTHOGONAL_POOL, MPL_ORTHOGONAL_REWARDS, etc.
+        */
         _addMainnet("V1_CORE", 0xEC7AD284f7Ad256b64c6E69b84Eb0F48f42e8196);
         _addMainnet("CORE", 0xEC7AD284f7Ad256b64c6E69b84Eb0F48f42e8196);
         _addMainnet(
