@@ -31,6 +31,10 @@ The `MultisigProposal` contract is an abstract contract that inherits from `Prop
 
 The `TimelockProposal` contract is an abstract contract that inherits from `Proposal`. It provides methods to add and simulate Timelock actions. If a proposal is timelock based, it must have at least 1 action, otherwise the test will revert.
 
+## PostProposalCheck Contract
+
+This contract is used to perform validation checks after the proposal has been executed. It should inherit the `PostProposalCheck` abstract contract and implement the `_addProposals` function, adding the created proposal by calling the Proposal contract.
+
 ## Proposal Stages
 
 Each proposal goes through the following stages:
@@ -38,9 +42,9 @@ Each proposal goes through the following stages:
 1. **Deploy**: In this stage, contracts are deployed and added to the list of addresses.
 2. **After-deploy**: Here, contracts are initialized and linked together after deployment.
 3. **Build**: The proposal object is built, generating an object with calldata that the run stage will execute.
-3. **Run**: The proposal is executed, involving actions like queuing and executing actions in the Timelock or performing a series of Multisig calls.
-4. **Teardown**: In this stage, the proposal is torn down, and any changes made during the `afterDeploy()` step are reverted.
-5. **Validate**: Finally, validation checks are performed after the proposal has been executed to ensure the proposal's success and that the expected outcome was achieved.
+4. **Run**: The proposal is executed, involving actions like queuing and executing actions in the Timelock or performing a series of Multisig calls.
+5. **Teardown**: In this stage, the proposal is torn down, and any changes made during the `afterDeploy()` step are reverted.
+6. **Validate**: Finally, validation checks are performed after the proposal has been executed to ensure the proposal's success and that the expected outcome was achieved.
 
 ## Environment Variables
 
@@ -68,7 +72,7 @@ You can set these environment variables before running the program to customize 
 
 ```bash
 forge install ElliotFriedman/forge-proposal-simulator
-````
+```
 
 2. Create a proposal. You can find an example of how a proposal structured in the `vip15.sol` file in the example folder.
 
