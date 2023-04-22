@@ -1,7 +1,7 @@
 pragma solidity 0.8.13;
 
 import {IPegStabilityModule} from "@interface/IPegStabilityModule.sol";
-import {PostProposalCheck} from "./PostProposalCheck.sol";
+import {PostProposalCheck} from "../PostProposalCheck.sol";
 import {TestProposals} from "../TestProposals.sol";
 import {Proposal} from "@proposal-types/Proposal.sol";
 import {vip15} from "./vip15.sol";
